@@ -1,0 +1,33 @@
+{
+  "name": "gh-star",
+  "version": "0.0.1",
+  "description": "NodeJS app that stars the GitHub repos referenced in a package.json file",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fedebertolini/gh-star.git"
+  },
+  "keywords": [
+    "github",
+    "npm",
+    "npmjs",
+    "star"
+  ],
+  "author": "Federico Bertolini",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fedebertolini/gh-star/issues"
+  },
+  "homepage": "https://github.com/fedebertolini/gh-star#readme",
+  "dependencies": {
+    "npm-registry-client": "^7.4.5",
+    "octonode": "^0.7.8"
+  },
+  "devDependencies": {
+    "jest": "^18.1.0"
+  }
+}
