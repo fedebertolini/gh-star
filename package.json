@@ -2,9 +2,11 @@
   "name": "gh-star",
   "version": "0.0.1",
   "description": "NodeJS app that stars the GitHub repos referenced in a package.json file",
-  "main": "src/index.js",
+  "preferGlobal": true,
+  "bin": {
+    "gh-star": "src/index.js"
+  },
   "scripts": {
-    "start": "node src/index.js",
     "test": "jest"
   },
   "repository": {

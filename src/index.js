@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 const inquirer = require('inquirer');
 const fs = require('fs');
 const winston = require('winston');
@@ -7,8 +9,7 @@ const parser = require('./packageParser');
 const resolver = require('./packageRepoResolver');
 const githubClient = require('./githubClient');
 
-
-const args = minimist(process.argv.slice(1));
+const args = minimist(process.argv.slice(2));
 const path = process.cwd();
 
 winston.level = args.v ? 'verbose' : 'info';
