@@ -1,10 +1,15 @@
-const parser = require('./packageParser');
-const resolver = require('./packageRepoResolver');
+const inquirer = require('inquirer');
+const prompt = require('./prompt');
+const githubClient = require('./githubClient');
 
-const result = parser.parsePackage('../package.json');
-
-result.forEach(packageInfo => {
-    resolver.resolveGithubRepo(packageInfo.name, packageInfo.version).then(url => {
-        console.log(url);
-    });
+inquirer.prompt(prompt.githubPersonalToken()).then(answer => {
+    githubClient.tokenAuth(answer.token);
+    return githubClient.getUser();
+}).then((user) => {
+    console.log(`Hello ${user.name}`);
+    return githubClient.getStarred();
+}).then((starred) => {
+    console.log(starred);
+}).catch(e => {
+    console.log(e);
 });
