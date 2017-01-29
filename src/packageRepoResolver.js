@@ -1,5 +1,5 @@
 const semverRegex = require('semver-regex');
-const winston = require('winston');
+const logger = require('./logger');
 const httpsClient = require('./httpsClient');
 
 const npmjsUri = 'https://registry.npmjs.org/';
@@ -19,10 +19,10 @@ const getRepoFromPackage = (packageDefinition) => {
         if (parseResult) {
             return  parseResult;
         } else {
-            winston.log('verbose', `${packageDefinition.name}: not a GitHub repository`);
+            logger.debug(`${packageDefinition.name}: not a GitHub repository`);
         }
     } else {
-        winston.log('verbose', `${packageDefinition.name}: no repository specified`);
+        logger.debug(`${packageDefinition.name}: no repository specified`);
     }
     return null;
 };

@@ -2,8 +2,8 @@
 
 const inquirer = require('inquirer');
 const fs = require('fs');
-const winston = require('winston');
 const minimist = require('minimist');
+const logger = require('./logger');
 const prompt = require('./prompt');
 const parser = require('./packageParser');
 const resolver = require('./packageRepoResolver');
@@ -12,10 +12,12 @@ const githubClient = require('./githubClient');
 const args = minimist(process.argv.slice(2));
 const path = process.cwd();
 
-winston.level = args.v ? 'verbose' : 'info';
+if (args.v) {
+    logger.setVerbosity(true);
+};
 
 if (!fs.existsSync(`${path}/package.json`)) {
-    winston.log('error', `Could not find a package.json file in ${path}`);
+    logger.error(`Could not find a package.json file in ${path}`);
     return;
 }
 
@@ -26,7 +28,7 @@ inquirer.prompt(prompt.githubPersonalToken()).then(answer => {
     githubClient.tokenAuth(answer.token);
     return githubClient.getUser();
 }).then((user) => {
-    winston.log('info', `Hello ${user.name}`);
+    logger.info(`Hello ${user.name}`);
     return githubClient.getStarred();
 }).then((starred) => {
     starredRepos = starred;
@@ -43,7 +45,7 @@ inquirer.prompt(prompt.githubPersonalToken()).then(answer => {
     const repos = unstarredRepos.filter((repo, index) => answers[index + 1]);
     return githubClient.starRepos(repos);
 }).then(() => {
-    winston.log('info', 'The selected repos have been starred!');
+    logger.info('The selected repos have been starred!');
 }).catch(e => {
-    winston.log('error', e);
+    logger.error(e);
 });

@@ -1,4 +1,4 @@
-const winston = require('winston');
+const logger = require('./logger');
 
 exports.parsePackage = (file = './package.json') => {
     let packageObject;
@@ -41,7 +41,7 @@ const getFile = (filePath) => {
     try {
         return require(filePath);
     } catch (e) {
-        winston.log('error', 'Error parsing package.json file', e);
+        logger.error('Error parsing package.json file', e);
         return {};
     }
 };

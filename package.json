@@ -29,8 +29,7 @@
     "github": "^8.1.1",
     "inquirer": "^3.0.1",
     "minimist": "^1.2.0",
-    "semver-regex": "^1.0.0",
-    "winston": "^2.3.1"
+    "semver-regex": "^1.0.0"
   },
   "devDependencies": {
     "jest": "^18.1.0"

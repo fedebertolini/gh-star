@@ -8,6 +8,6 @@ exports.githubPersonalToken = () => ({
 exports.starRepos = (repos) => repos.map((repo, index) => ({
     type: 'confirm',
     name: index + 1,
-    message: `Do you want to star ${repo.repository}?`,
+    message: `Do you want to star ${repo.fullName}?`,
     default: true,
 }));
