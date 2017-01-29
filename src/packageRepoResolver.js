@@ -3,7 +3,7 @@ const logger = require('./logger');
 const httpsClient = require('./httpsClient');
 
 const npmjsUri = 'https://registry.npmjs.org/';
-const githubRegex = /github\.com\/([^/]+)\/([^/]+)\.git$/;
+const githubRegex = /github\.com\/([^/]+)\/([^/]+)$/;
 
 const resolveGithubRepo = (packageName, packageVersion) => {
     if (semverRegex().test(packageVersion)) {
@@ -37,8 +37,10 @@ const getRepoFromNpm = (packageName) => {
         });
 };
 
-const parseGitUrl = (gitUrl) => {
-    const regexResult = githubRegex.exec(gitUrl);
+const parseGitUrl = (gitUrl = '') => {
+    const url = gitUrl.endsWith('.git') ? gitUrl.slice(0, -4) : gitUrl;
+    const regexResult = githubRegex.exec(url);
+
     if (regexResult) {
         return {
             username: regexResult[1],
