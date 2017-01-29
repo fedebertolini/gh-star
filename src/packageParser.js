@@ -1,3 +1,5 @@
+const winston = require('winston');
+
 exports.parsePackage = (file = './package.json') => {
     let packageObject;
     if (typeof file === 'string') {
@@ -39,7 +41,7 @@ const getFile = (filePath) => {
     try {
         return require(filePath);
     } catch (e) {
-        console.log('Error parsing package.json file', e);
+        winston.log('error', 'Error parsing package.json file', e);
         return {};
     }
 };
