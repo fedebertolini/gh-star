@@ -27,11 +27,21 @@ exports.getStarred = () => {
         .getStarredRepos(param)
         .then(pager)
         .then(result => {
-            return result.map(item => ({
-                name: item.name,
-                fullName: item.full_name,
-            }));
+            const repos = {};
+            result.forEach(item => {
+                repos[item.full_name] = true;
+            });
+            return repos;
         });
+};
+
+exports.starRepos = (repos) => {
+    return Promise.all(repos.map(repo => {
+        return github.activity.starRepo({
+            owner: repo.username,
+            repo: repo.repository,
+        }).catch(e => Promise.reject(`${repo.fullName}: ${e.message}`));
+    }));
 };
 
 exports.tokenAuth = (token) => {

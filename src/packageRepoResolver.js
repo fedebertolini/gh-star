@@ -1,34 +1,48 @@
 const semverRegex = require('semver-regex');
 const httpsClient = require('./httpsClient');
 
+const debug = false;
 const npmjsUri = 'https://registry.npmjs.org/';
+const githubRegex = /github\.com\/([^/]+)\/([^/]+)\.git$/;
 
 const resolveGithubRepo = (packageName, packageVersion) => {
     if (semverRegex().test(packageVersion)) {
         return getRepoFromNpm(packageName);
     }
-    console.log('semver not ok :' + packageVersion);
     return Promise.resolve();
 };
 
-const getRepoUrlFromPackage = (packageDefinition) => {
+const getRepoFromPackage = (packageDefinition) => {
     const repo = packageDefinition.repository;
     if (repo) {
-        if (repo.type === 'git' && repo.url.includes('github.com')) {
-            return repo.url;
+        const parseResult = parseGitUrl(repo.url);
+        if (parseResult) {
+            return  parseResult;
         } else {
-            console.log(`${packageDefinition.name}: not a GitHub repository`);
+            debug && console.log(`${packageDefinition.name}: not a GitHub repository`);
         }
     } else {
-        console.log(`${packageDefinition.name}: does not have a repository`);
+        debug && console.log(`${packageDefinition.name}: no repository specified`);
     }
     return null;
 };
 
 const getRepoFromNpm = (packageName) => {
-    return httpsClient.get(npmjsUri, packageName + '/')
-        .then(getRepoUrlFromPackage);
+    return httpsClient.get(npmjsUri, packageName + '/').then(getRepoFromPackage);
+};
+
+const parseGitUrl = (gitUrl) => {
+    const regexResult = githubRegex.exec(gitUrl);
+    if (regexResult) {
+        return {
+            username: regexResult[1],
+            repository: regexResult[2],
+            fullName: `${regexResult[1]}/${regexResult[2]}`,
+        };
+    }
+    return null;
 };
 
 exports.resolveGithubRepo = resolveGithubRepo;
-exports.getRepoUrlFromPackage = getRepoUrlFromPackage;
+exports.getRepoFromPackage = getRepoFromPackage;
+exports.parseGitUrl = parseGitUrl;
