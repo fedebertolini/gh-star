@@ -28,7 +28,13 @@ const getRepoFromPackage = (packageDefinition) => {
 };
 
 const getRepoFromNpm = (packageName) => {
-    return httpsClient.get(npmjsUri, packageName + '/').then(getRepoFromPackage);
+    return httpsClient
+        .get(npmjsUri, packageName + '/')
+        .then(getRepoFromPackage)
+        .catch(e => {
+            logger.debug(`${packageName}: does not exists in npmjs registry or not publicly accessible`);
+            return null;
+        });
 };
 
 const parseGitUrl = (gitUrl) => {
