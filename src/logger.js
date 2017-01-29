@@ -1,3 +1,5 @@
+const colors = require('colors/safe');
+
 let verbose = false;
 
 exports.setVerbosity = (verbosity = false) => {
@@ -5,13 +7,13 @@ exports.setVerbosity = (verbosity = false) => {
 };
 
 exports.info = (message) => {
-    console.log(message);
+    console.log(colors.green(message));
 };
 
 exports.error = (message) => {
-    console.log(message);
+    console.log(colors.red(message));
 };
 
 exports.debug = (message) => {
-    verbose && console.log(message);
+    verbose && console.log(colors.yellow(message));
 };
