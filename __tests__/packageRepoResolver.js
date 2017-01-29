@@ -23,6 +23,7 @@ describe('package repo resolver', () => {
         const inquirer = 'git+https://github.com/sboudrias/Inquirer.js.git';
         const ghStar = 'git+https://github.com/fedebertolini/gh-star.git';
         const urlWithoutGitExt = 'https://github.com/svg/svgo';
+        const urlWithTag = 'git+https://github.com/sboudrias/Inquirer.js.git#v3.0.1';
         const bitbuckerUrl = 'https://bitbucket.org/simpletechs/node-safe-enum.git';
         const malformedUrl = 'https://github.com/fedebertolini/';
 
@@ -30,6 +31,7 @@ describe('package repo resolver', () => {
         const inquirerResult = resolver.parseGitUrl(inquirer);
         const ghStarResult = resolver.parseGitUrl(ghStar);
         const urlWithoutGitExtResult = resolver.parseGitUrl(urlWithoutGitExt);
+        const urlWithTagResult = resolver.parseGitUrl(urlWithTag);
         const bitbuckerUrlResult = resolver.parseGitUrl(bitbuckerUrl);
         const malformedUrlResult = resolver.parseGitUrl(bitbuckerUrl);
 
@@ -37,6 +39,7 @@ describe('package repo resolver', () => {
         expect(inquirerResult.fullName).toBe('sboudrias/Inquirer.js');
         expect(ghStarResult.fullName).toBe('fedebertolini/gh-star');
         expect(urlWithoutGitExtResult.fullName).toBe('svg/svgo');
+        expect(urlWithTagResult.fullName).toBe('sboudrias/Inquirer.js');
         expect(bitbuckerUrlResult).toBe(null);
         expect(malformedUrlResult).toBe(null);
     });

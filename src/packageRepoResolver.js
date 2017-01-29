@@ -1,15 +1,24 @@
-const semverRegex = require('semver-regex');
+const npa = require('npm-package-arg');
+const hostedGitInfo = require('hosted-git-info');
 const logger = require('./logger');
 const httpsClient = require('./httpsClient');
 
 const npmjsUri = 'https://registry.npmjs.org/';
-const githubRegex = /github\.com\/([^/]+)\/([^/]+)$/;
+const githubRegex = /github\.com\/([^/]+)\/([^/]+)\.git(?:#\S*)?$/;
 
 const resolveGithubRepo = (packageName, packageVersion) => {
-    if (semverRegex().test(packageVersion)) {
-        return getRepoFromNpm(packageName);
+    const packageArgs = npa(`${packageName}@${packageVersion}`);
+
+    switch (packageArgs.type) {
+        case 'hosted':
+            return Promise.resolve(parseGitUrl(packageVersion));
+        case 'tag':
+        case 'version':
+        case 'range':
+            return getRepoFromNpm(packageName);
+        default:
+            return Promise.resolve(null);
     }
-    return Promise.resolve();
 };
 
 const getRepoFromPackage = (packageDefinition) => {
@@ -38,14 +47,12 @@ const getRepoFromNpm = (packageName) => {
 };
 
 const parseGitUrl = (gitUrl = '') => {
-    const url = gitUrl.endsWith('.git') ? gitUrl.slice(0, -4) : gitUrl;
-    const regexResult = githubRegex.exec(url);
-
-    if (regexResult) {
+    const hostedInfo = hostedGitInfo.fromUrl(gitUrl);
+    if (hostedInfo.type === 'github') {
         return {
-            username: regexResult[1],
-            repository: regexResult[2],
-            fullName: `${regexResult[1]}/${regexResult[2]}`,
+            username: hostedInfo.user,
+            repository: hostedInfo.project,
+            fullName: `${hostedInfo.user}/${hostedInfo.project}`,
         };
     }
     return null;
