@@ -35,13 +35,11 @@ exports.getStarred = () => {
         });
 };
 
-exports.starRepos = (repos) => {
-    return Promise.all(repos.map(repo => {
-        return github.activity.starRepo({
-            owner: repo.username,
-            repo: repo.repository,
-        }).catch(e => Promise.reject(`${repo.fullName}: ${e.message}`));
-    }));
+exports.starRepo = (repo) => {
+    return github.activity.starRepo({
+        owner: repo.username,
+        repo: repo.repository,
+    }).catch(e => Promise.reject(`${repo.fullName}: ${e.message}`));
 };
 
 exports.tokenAuth = (token) => {

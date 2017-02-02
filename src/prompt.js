@@ -5,9 +5,9 @@ exports.githubPersonalToken = () => ({
     validate: (value) => !!value && value.length >= 40,
 });
 
-exports.starRepos = (repos) => repos.map((repo, index) => ({
+exports.starRepo = (repoName, questionName) => ({
     type: 'confirm',
-    name: index + 1,
-    message: `Do you want to star ${repo.fullName}?`,
+    name: questionName,
+    message: `Do you want to star ${repoName}?`,
     default: true,
-}));
+});
