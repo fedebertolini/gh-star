@@ -11,9 +11,8 @@ npm install gh-star -g
 
 ## Usage
 Since **gh-star** impersonates you for starring repositories, you
-need to provide a Github Personal Access Token. You can
-[get an access token by following this instructions]
-(https://help.github.com/articles/creating-an-access-token-for-command-line-use/).
+need to provide a [Github Personal Access Token](https://github.com/settings/tokens).
+You can [get an access token by following this instructions](https://help.github.com/articles/creating-an-access-token-for-command-line-use/).
 The only required scope for the access token is `public_repo`.
 
 In your project folder where the `package.json` file is located run
