@@ -58,6 +58,12 @@ inquirer.prompt(prompt.githubPersonalToken()).then(answer => {
         return promptStarRepoQuestion(unstarredRepos).then(() => {
             return Promise.all(promises);
         }).then(() => {
+            return inquirer.prompt(prompt.starGHStar('star'));
+        }).then((answer) => {
+            if (answer.star) {
+                return githubClient.starGHStar();
+            }
+        }).then(() => {
             logger.info('The selected repos have been starred!');
         });
     } else {

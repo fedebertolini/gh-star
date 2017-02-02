@@ -42,6 +42,12 @@ exports.starRepo = (repo) => {
     }).catch(e => Promise.reject(`${repo.fullName}: ${e.message}`));
 };
 
+exports.starGHStar = () => module.exports.starRepo({
+    username: 'fedebertolini',
+    repository: 'gh-star',
+    fullName: 'fedebertolini/gh-star',
+});
+
 exports.tokenAuth = (token) => {
     github.authenticate({
         type: "oauth",

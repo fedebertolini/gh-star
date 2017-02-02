@@ -11,3 +11,10 @@ exports.starRepo = (repoName, questionName) => ({
     message: `Do you want to star ${repoName}?`,
     default: true,
 });
+
+exports.starGHStar = (questionName) => ({
+    type: 'confirm',
+    name: questionName,
+    message: `Would you like to star gh-star too?`,
+    default: true,
+});
