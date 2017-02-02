@@ -48,7 +48,7 @@ const getRepoFromNpm = (packageName) => {
 
 const parseGitUrl = (gitUrl = '') => {
     const hostedInfo = hostedGitInfo.fromUrl(gitUrl);
-    if (hostedInfo.type === 'github') {
+    if (hostedInfo && hostedInfo.type === 'github') {
         return {
             username: hostedInfo.user,
             repository: hostedInfo.project,

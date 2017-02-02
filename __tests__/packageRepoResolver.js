@@ -18,29 +18,38 @@ describe('package repo resolver', () => {
         });
     });
 
-    it('parses git urls', () => {
-        const svgo = 'https://github.com/svg/svgo.git';
-        const inquirer = 'git+https://github.com/sboudrias/Inquirer.js.git';
-        const ghStar = 'git+https://github.com/fedebertolini/gh-star.git';
-        const urlWithoutGitExt = 'https://github.com/svg/svgo';
-        const urlWithTag = 'git+https://github.com/sboudrias/Inquirer.js.git#v3.0.1';
-        const bitbuckerUrl = 'https://bitbucket.org/simpletechs/node-safe-enum.git';
-        const malformedUrl = 'https://github.com/fedebertolini/';
+    it('parses valid git urls', () => {
+        repos = [{
+            url: 'https://github.com/svg/svgo.git',
+            fullName: 'svg/svgo',
+        }, {
+            url: 'git+https://github.com/sboudrias/Inquirer.js.git',
+            fullName: 'sboudrias/Inquirer.js',
+        }, {
+            url: 'git+https://github.com/fedebertolini/gh-star.git',
+            fullName: 'fedebertolini/gh-star',
+        }, {
+            url: 'https://github.com/svg/svgo',
+            fullName: 'svg/svgo',
+        }, {
+            url: 'git+https://github.com/sboudrias/Inquirer.js.git#v3.0.1',
+            fullName: 'sboudrias/Inquirer.js',
+        }];
 
-        const svgoResult = resolver.parseGitUrl(svgo);
-        const inquirerResult = resolver.parseGitUrl(inquirer);
-        const ghStarResult = resolver.parseGitUrl(ghStar);
-        const urlWithoutGitExtResult = resolver.parseGitUrl(urlWithoutGitExt);
-        const urlWithTagResult = resolver.parseGitUrl(urlWithTag);
-        const bitbuckerUrlResult = resolver.parseGitUrl(bitbuckerUrl);
-        const malformedUrlResult = resolver.parseGitUrl(bitbuckerUrl);
+        repos.forEach(repo => {
+            const repoInfo = resolver.parseGitUrl(repo.url);
+            expect(repoInfo.fullName).toBe(repo.fullName);
+        });
+    });
 
-        expect(svgoResult.fullName).toBe('svg/svgo');
-        expect(inquirerResult.fullName).toBe('sboudrias/Inquirer.js');
-        expect(ghStarResult.fullName).toBe('fedebertolini/gh-star');
-        expect(urlWithoutGitExtResult.fullName).toBe('svg/svgo');
-        expect(urlWithTagResult.fullName).toBe('sboudrias/Inquirer.js');
-        expect(bitbuckerUrlResult).toBe(null);
-        expect(malformedUrlResult).toBe(null);
+    it('parses invalid git urls', () => {
+        repos = [
+            'https://bitbucket.org/simpletechs/node-safe-enum.git',
+            'https://github.com/fedebertolini/',
+        ];
+
+        repos.forEach(url => {
+            expect(resolver.parseGitUrl(url)).toBe(null);
+        });
     });
 });

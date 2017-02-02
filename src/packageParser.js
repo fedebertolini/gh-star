@@ -24,15 +24,13 @@ const compareStrings = (str1, str2) => {
     return 0;
 }
 
-const parseDependenciesObject = (obj) => {
+const parseDependenciesObject = (obj = {}) => {
     const result = [];
-    if (obj) {
-        for (key in obj) {
-            result.push({
-                name: key,
-                version: obj[key],
-            });
-        }
+    for (key in obj) {
+        result.push({
+            name: key,
+            version: obj[key],
+        });
     }
     return result;
 };
