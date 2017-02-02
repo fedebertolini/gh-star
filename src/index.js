@@ -22,6 +22,7 @@ if (!fs.existsSync(`${path}/package.json`)) {
 }
 
 let starredRepos = {};
+const promises = [];
 
 const promptStarRepoQuestion = (repositories) => {
     if (repositories.length === 0) {
@@ -29,9 +30,8 @@ const promptStarRepoQuestion = (repositories) => {
     }
     const repo = repositories[0];
     return inquirer.prompt(prompt.starRepo(repo.fullName, 'star')).then((answer) => {
-        console.log(answer);
         if (answer.star) {
-            githubClient.starRepo(repo);
+            promises.push(githubClient.starRepo(repo));
         }
         return promptStarRepoQuestion(repositories.slice(1));
     });
@@ -54,9 +54,15 @@ inquirer.prompt(prompt.githubPersonalToken()).then(answer => {
         return !!repo && !starredRepos[repo.fullName];
     });
 
-    return promptStarRepoQuestion(unstarredRepos);
-}).then(() => {
-    logger.info('The selected repos have been starred!');
+    if (unstarredRepos.length) {
+        return promptStarRepoQuestion(unstarredRepos).then(() => {
+            return Promise.all(promises);
+        }).then(() => {
+            logger.info('The selected repos have been starred!');
+        });
+    } else {
+        logger.info('All repos are already starred');
+    }
 }).catch(e => {
     logger.error(e);
 });

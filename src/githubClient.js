@@ -29,7 +29,7 @@ exports.getStarred = () => {
         .then(result => {
             const repos = {};
             result.forEach(item => {
-                repos[item.full_name] = true;
+                repos[item.full_name.toLowerCase()] = true;
             });
             return repos;
         });

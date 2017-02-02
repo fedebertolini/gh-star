@@ -49,10 +49,12 @@ const getRepoFromNpm = (packageName) => {
 const parseGitUrl = (gitUrl = '') => {
     const hostedInfo = hostedGitInfo.fromUrl(gitUrl);
     if (hostedInfo && hostedInfo.type === 'github') {
+        const username = hostedInfo.user.toLowerCase();
+        const repository = hostedInfo.project.toLowerCase();
         return {
-            username: hostedInfo.user,
-            repository: hostedInfo.project,
-            fullName: `${hostedInfo.user}/${hostedInfo.project}`,
+            username: username,
+            repository: repository,
+            fullName: `${username}/${repository}`,
         };
     }
     return null;
