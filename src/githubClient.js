@@ -1,42 +1,25 @@
-const GitHubApi = require('github');
+const Octokit = require("@octokit/rest");
 
-const github = new GitHubApi({
-    protocol: 'https',
-    host: 'api.github.com',
-    followRedirects: false,
-    timeout: 5000
-});
+let octokit;
 
 exports.getUser = () => {
-    return github.users.get({}).catch(e => Promise.reject('Authentication error'));
+    return octokit.users.getAuthenticated()
+        .then(result => result.data)
+        .catch(e => Promise.reject('Authentication error'));
 };
 
-exports.getStarred = () => {
-    let starred = [];
-
-    const pager = (result) => {
-        starred = starred.concat(result);
-        if (github.hasNextPage(result)) {
-            return github.getNextPage(result).then(pager);
-        }
-        return starred;
-    };
-    const param = { per_page: 100 };
-
-    return github.activity
-        .getStarredRepos(param)
-        .then(pager)
-        .then(result => {
-            const repos = {};
-            result.forEach(item => {
-                repos[item.full_name.toLowerCase()] = true;
-            });
-            return repos;
+exports.getStarred = () => octokit
+    .paginate('GET /user/starred')
+    .then(result => {
+        const repos = {};
+        result.forEach(item => {
+            repos[item.full_name.toLowerCase()] = true;
         });
-};
+        return repos;
+    });
 
 exports.starRepo = (repo) => {
-    return github.activity.starRepo({
+    return octokit.activity.starRepo({
         owner: repo.username,
         repo: repo.repository,
     }).catch(e => Promise.reject(`${repo.fullName}: ${e.message}`));
@@ -48,9 +31,14 @@ exports.starGHStar = () => module.exports.starRepo({
     fullName: 'fedebertolini/gh-star',
 });
 
-exports.tokenAuth = (token) => {
-    github.authenticate({
-        type: "oauth",
-        token: token,
+exports.initClient = (token) => {
+    octokit = new Octokit({
+        protocol: 'https',
+        host: 'api.github.com',
+        followRedirects: false,
+        request: {
+            timeout: 5000
+        },
+        auth: token,
     });
 };

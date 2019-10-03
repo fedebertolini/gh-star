@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/fedebertolini/gh-star#readme",
   "dependencies": {
+    "@octokit/rest": "^16.30.1",
     "colors": "^1.4.0",
-    "github": "^8.1.1",
     "hosted-git-info": "^2.1.5",
     "inquirer": "^3.0.1",
     "minimist": "^1.2.0",

@@ -38,7 +38,7 @@ const promptStarRepoQuestion = (repositories) => {
 };
 
 inquirer.prompt(prompt.githubPersonalToken()).then(answer => {
-    githubClient.tokenAuth(answer.token);
+    githubClient.initClient(answer.token);
     return githubClient.getUser();
 }).then((user) => {
     logger.info(`Hello ${user.name}`);
