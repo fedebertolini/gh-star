@@ -24,7 +24,7 @@ describe('package repo resolver', () => {
             fullName: 'svg/svgo',
         }, {
             url: 'git+https://github.com/sboudrias/Inquirer.js.git',
-            fullName: 'sboudrias/Inquirer.js',
+            fullName: 'sboudrias/inquirer.js',
         }, {
             url: 'git+https://github.com/fedebertolini/gh-star.git',
             fullName: 'fedebertolini/gh-star',
@@ -33,7 +33,7 @@ describe('package repo resolver', () => {
             fullName: 'svg/svgo',
         }, {
             url: 'git+https://github.com/sboudrias/Inquirer.js.git#v3.0.1',
-            fullName: 'sboudrias/Inquirer.js',
+            fullName: 'sboudrias/inquirer.js',
         }];
 
         repos.forEach(repo => {
