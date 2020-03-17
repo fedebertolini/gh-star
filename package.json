@@ -30,10 +30,10 @@
     "colors": "^1.4.0",
     "hosted-git-info": "^2.1.5",
     "inquirer": "^3.0.1",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "npm-package-arg": "^4.2.0"
   },
   "devDependencies": {
-    "jest": "^24.9.0"
+    "jest": "^25.1.0"
   }
 }
