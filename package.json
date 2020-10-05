@@ -1,6 +1,6 @@
 {
   "name": "gh-star",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "NodeJS app that stars the GitHub repos referenced in a package.json file",
   "preferGlobal": true,
   "bin": {
