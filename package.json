@@ -27,11 +27,11 @@
   "homepage": "https://github.com/fedebertolini/gh-star#readme",
   "dependencies": {
     "@octokit/rest": "^16.43.2",
-    "hosted-git-info": "^2.1.5",
+    "hosted-git-info": "^4.0.2",
     "inquirer": "^8.2.0",
     "kleur": "^4.1.4",
     "minimist": "^1.2.5",
-    "npm-package-arg": "^4.2.0"
+    "npm-package-arg": "^8.1.5"
   },
   "devDependencies": {
     "uvu": "^0.5.2"
