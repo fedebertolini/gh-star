@@ -28,7 +28,7 @@
   "dependencies": {
     "@octokit/rest": "^16.43.2",
     "hosted-git-info": "^2.1.5",
-    "inquirer": "^3.0.1",
+    "inquirer": "^8.2.0",
     "kleur": "^4.1.4",
     "minimist": "^1.2.5",
     "npm-package-arg": "^4.2.0"
