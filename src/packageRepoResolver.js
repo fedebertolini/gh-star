@@ -1,7 +1,7 @@
+const axios = require("axios");
 const npa = require("npm-package-arg");
 const hostedGitInfo = require("hosted-git-info");
 const logger = require("./logger");
-const httpsClient = require("./httpsClient");
 
 const npmjsUri = "https://registry.npmjs.org/";
 
@@ -36,8 +36,9 @@ const getRepoFromPackage = (packageDefinition) => {
 };
 
 const getRepoFromNpm = (packageName) => {
-  return httpsClient
-    .get(npmjsUri, packageName + "/")
+  return axios
+    .get(`${npmjsUri}${packageName}/`)
+    .then((result) => result.data)
     .then(getRepoFromPackage)
     .catch((e) => {
       logger.debug(
