@@ -1,19 +1,19 @@
-const colors = require('colors/safe');
+const kleur = require("kleur");
 
 let verbose = false;
 
 exports.setVerbosity = (verbosity = false) => {
-    verbose = verbosity;
+  verbose = verbosity;
 };
 
 exports.info = (message) => {
-    console.log(colors.green(message));
+  console.log(kleur.green(message));
 };
 
 exports.error = (message) => {
-    console.log(colors.red(message));
+  console.log(kleur.red(message));
 };
 
 exports.debug = (message) => {
-    verbose && console.log(colors.yellow(message));
+  verbose && console.log(kleur.yellow(message));
 };
